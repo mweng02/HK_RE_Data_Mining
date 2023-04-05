@@ -22,11 +22,10 @@ Additional Libraries need to import.
 ```  
     a = GeoCode()
     a.geoCodePOI()
+```
     
     Need to fill up your own googleMap API Key to run GeoCoder.py
     GOOGLE_API_KEY = '' <--- Please fill up 
-```
-
 3. Finally, run the Data(SourceFile).getDataFrame() and proceed to HK_real_estate_price_analysis.ipynb to further analysis 
 
 ### Date Visualisation and Analysis 
