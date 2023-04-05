@@ -45,5 +45,6 @@ Need to fill up your own googleMap API Key to run GeoCoder.py
 ```
 
 ### Date Visualisation and Analysis 
+![image](https://user-images.githubusercontent.com/100345585/230010876-9458c975-799c-46ad-9bc3-981cf0ab0992.png)
 
 ### Model Prediction 
