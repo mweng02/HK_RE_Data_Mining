@@ -30,6 +30,11 @@ Need to fill up your own googleMap API Key to run GeoCoder.py
     
 
 3. Finally, run the Data(SourceFile).getDataFrame() and proceed to HK_real_estate_price_analysis.ipynb to further analysis 
+ ```
+    SourceFile = glob.glob(os.path.join(sys.path[0], "Data/HK_2016-2019_V2.csv"))
+    #Data(SourceFile).DataProcessing()
+    Data(SourceFile).getDataFrame()
+```
 
 ### Date Visualisation and Analysis 
 
