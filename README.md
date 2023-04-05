@@ -4,7 +4,7 @@
 The objective of this study is to investigate the relationship of MTR station on the property price and compare the accuracy of the ML price prediction with or without train proximity feature. 
 
 ### Requirements
-Additional Libraries need to import
+Additional Libraries need to import. Need to fill up your own googleMap API Key to run GeoCoder.py
 ```
   Pip install googlemaps
   pip install gmaps 
