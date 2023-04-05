@@ -18,13 +18,14 @@ Additional Libraries need to import.
 ```
 
                 
-2.  Next, we proceed to obtain the latitude, longitude as well as the nearest MTR station of each unique address in GeoGoder.py. Need to fill up your own googleMap API Key to run GeoCoder.py
+2.  Next, we proceed to obtain the latitude, longitude as well as the nearest MTR station of each unique address in GeoGoder.py. 
 ```  
     a = GeoCode()
     a.geoCodePOI()
-
+    
+    Need to fill up your own googleMap API Key to run GeoCoder.py
+    GOOGLE_API_KEY = '' <--- Please fill up 
 ```
-![image](https://user-images.githubusercontent.com/100345585/230000180-369f0ac7-46b5-4772-a371-8200a9a87d8e.png)
 
 3. Finally, run the Data(SourceFile).getDataFrame() and proceed to HK_real_estate_price_analysis.ipynb to further analysis 
 
