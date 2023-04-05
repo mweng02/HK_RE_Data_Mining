@@ -4,6 +4,14 @@
 The objective of this study is to investigate the relationship of MTR station on the property price and compare the accuracy of the ML price prediction with or without train proximity feature. 
 
 ### Requirements
+Clone the git into visual studio
+create conda python environment (I am using miniconda) 
+``` 
+conda create mlwebapp 
+conda activate mlwebapp 
+jupyter notebook 
+```
+
 Additional Libraries need to import.
 ```
   Pip install googlemaps
