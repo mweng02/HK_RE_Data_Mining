@@ -10,6 +10,10 @@ Additional Libraries need to import.
   pip install gmaps 
   pip install streamlit 
 ```
+Need to fill up your own googleMap API Key to run GeoCoder.py
+```
+    GOOGLE_API_KEY = '' 
+```
 ### Dataset 
 1. The main dataset of this study was property transaction information in the period of 2016-2019 from the Land Registry's Memorial Day Book. In the PreProcessing.py, first run Data(SourceFile).DataProcessing() to clean Data and Feature Extraction within the transaction dataset 
 ```
@@ -24,8 +28,7 @@ Additional Libraries need to import.
     a.geoCodePOI()
 ```
     
-    Need to fill up your own googleMap API Key to run GeoCoder.py
-    GOOGLE_API_KEY = '' <--- Please fill up 
+
 3. Finally, run the Data(SourceFile).getDataFrame() and proceed to HK_real_estate_price_analysis.ipynb to further analysis 
 
 ### Date Visualisation and Analysis 
