@@ -9,7 +9,7 @@ create conda python environment (I am using miniconda)
 ``` 
 conda create mlwebapp 
 conda activate mlwebapp 
-jupyter notebook 
+jupyter notebook (launch from terminal to open jupyter notebook) 
 ```
 
 Additional Libraries need to import.
