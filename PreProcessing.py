@@ -93,6 +93,8 @@ class Data:
         else:building_age = 3
 
         return building_age 
+    
+
  # <!---------------------------------------------- End For the ML Prediction ----------------------------------------------------------------> 
     
     def DataProcessing(self):  
@@ -103,6 +105,8 @@ class Data:
             df['TOTNFA'] = df['TOTNFA'].astype(float) # Convert To Float for Calculation 
             df['Transaction_Price'] =pd.to_numeric(df['CONSIDERTN']*1000000) #  # Convert To Float and multple with million for Calculation
             df['Sale_Year'] = pd.DatetimeIndex(df['INST_DATE']).year
+            df['Sale_date'] = pd.to_datetime(df['INST_DATE']).dt.strftime('%Y-%m')
+            df['quarter'] = pd.to_datetime(df['Sale_date']).dt.to_period('Q').astype(str).str.replace('Q', '-Q')
             df['FLOOR'] = df['FLOOR'].fillna("0")
             df['FLOOR'] = df['FLOOR'].str.replace(r'[^\d]+',"",regex=True)
             df = df[df['FLOOR'] !='']
@@ -110,6 +114,7 @@ class Data:
             df['Completion_Year1'] = pd.to_datetime(df['OP_DATE'],errors='coerce') ### CLEAN THE different format of the string in this column 
             df['Completion_Year1'] = pd.DatetimeIndex(df['Completion_Year1']).year
             df['Completion_Year'] = df.apply(lambda x:x['OP_DATE'].str[:4] if x['Completion_Year1']=='' else x['Completion_Year1'],axis = 1)
+    
             df = df.fillna("") ## fill in the blank 
             df.drop_duplicates()
             return df 
@@ -126,6 +131,17 @@ class Data:
             df['BuildingAge'] = df.apply(self.building_age, axis = 1) 
             df['FloorType'] = df.apply(self.floor_type, axis =1)
             df['UnitSize'] = df.apply(self.area_category, axis = 1)
+            #df['BAL'] = df.apply(self.BAL, axis = 1)
+            #BELOW MARKET VALUE
+            df['below_value'] = df['REMARK'].apply(lambda x : 1 if "BELOW MARKET VALUE" in x else 0)
+            #DUPLEX UNIT
+            df['duplex'] = df['REMARK'].apply(lambda x : 1 if "DUPLEX" in x else 0)
+            #STAIRHOOD
+            df['stair'] = df['REMARK'].apply(lambda x : 1 if "STAIRHOOD" in x else 0)
+            #PARKING SPACE
+            df['parking'] = df['REMARK'].apply(lambda x : 1 if "PARKING SPACE" in x or "CPS" in x else 0)
+            #Roof
+            df['roof'] = df['REMARK'].apply(lambda x : 1 if "RF" in x or "ROOF" in x or "F/R" in x else 0)
             df = df.drop_duplicates(["Project_Name",'TOTNFA','Transaction_Price','combined_address','INST_DATE'])
             
             return df
@@ -150,15 +166,17 @@ class Data:
         df = pd.read_pickle('Data/Pre_TransactionData.pkl')
         streets = pd.read_csv('Data/uniqueaddress.csv')
         print(len(streets))
-        latlon = pd.read_pickle('Data/geolocations-all.pkl')
+        latlon = pd.read_pickle('Data/GeoCode/geolocations-all.pkl')
         #print(latlon)
         streets['lat'],streets['long']= latlon['lat'],latlon['lon']
-        streets['Distance_TO_MRT'],streets['MRT'] ,streets['CBD']= latlon['distance_to_MRT'], latlon['Station'],latlon['CBD']
+        streets['Distance_TO_MRT'],streets['MRT'] ,streets['Distance_To_CBD'],streets['Distance_To_School'],streets['Distance_To_Mall']= latlon['distance_to_MRT'], latlon['Station'],latlon['CBD'],latlon['School'],latlon['mall']
         #streets['Distance_TO_MRT'],streets['Distance_TO_MALL'] ,streets['Distance_TO_SCHOOL']  = latlon['distance_to_MRT'],latlon['distance_to_Mall'],latlon['distance_to_school']
 
-        HK = pd.merge(df,streets[['lat','long','Distance_TO_MRT','combined_address','MRT','CBD']],on='combined_address',how='left')
+        HK = pd.merge(df,streets[['lat','long','Distance_TO_MRT','combined_address','MRT','Distance_To_CBD','Distance_To_School','Distance_To_Mall']],on='combined_address',how='left')
         #'Distance_TO_MRT','lat','long
-        HK = HK[['Project_Name','INST_DATE','Sale_Type','Property_Type','Sale_Year','D_CODE',"BuildingAge","UnitSize",'FLOOR','FloorType','combined_address','Distance_TO_MRT','TOTNFA','NET_PSF','lat','long','MRT','CBD','Transaction_Price']]
+        HK = HK[['Project_Name','combined_address','INST_DATE','Sale_Type','Property_Type','Sale_Year','D_CODE',"BuildingAge",'FLOOR',
+                 'FloorType',"UnitSize",'TOTNFA','lat','long','MRT','quarter','Distance_To_CBD','Distance_TO_MRT','Distance_To_School','Distance_To_Mall'
+                 ,'below_value','duplex','stair','parking','roof','NET_PSF','Transaction_Price']]
         HK = HK[(HK['Project_Name'] != "")]
         HK = HK.fillna('')
         HK = HK.set_index(pd.to_datetime(HK['INST_DATE'].values, infer_datetime_format=True))
@@ -172,7 +190,7 @@ if __name__ == "__main__":
     SourceFile = glob.glob(os.path.join(sys.path[0], "Data/HK_2016-2019_V2.csv"))
     #Data(SourceFile).DataProcessing()# precleaning 
     #GeoCode().geoCodePOI() # load the POI data 
-    Data(SourceFile).getDataFrame() #merge get the clean dataset 
+    print(Data(SourceFile).getDataFrame())#merge get the clean dataset 
 
 
 

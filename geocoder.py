@@ -2,7 +2,7 @@ import googlemaps,gmaps
 import pickle, numpy as np, pandas as pd 
 
 ### Need to create your own API key account for google GeoCodingAPI
-GOOGLE_API_KEY = ''
+GOOGLE_API_KEY = 'AIzaSyBdOkTrlyWavJZZBA_XumEiPB8n4tKhsro'
 REFERENCE_PATH = 'Data/GeoCode/geo-dict.json'
 
 SAVE_REFERENCE_PATH = 'Data/GeoCode/geo-dict.json'
@@ -56,7 +56,7 @@ class GeoCode:
         for uniqueaddress in self.address :      
             if not uniqueaddress in self.addressdict:
                     print("Go geoCode",uniqueaddress)
-                    #lat_,lng_ = 0,0
+                    lat_,lng_ = 0,0
                     lat_, lng_ = self.Geocoder(uniqueaddress,"Hong Kong")
                     count = count + 1 
                     print("Reading API", count)
@@ -76,7 +76,7 @@ class GeoCode:
 
     def saveGeoLocations(self):
         #'distance_to_Mall': self.ShoppingMall,'distance_to_school': self.school,'distance_to_MRT':self.MRT
-        lon_lat = {'lon':self.long, 'lat':self.lat,'distance_to_MRT':self.MRT,'Station':self.MRTName,'CBD':self.CBD}
+        lon_lat = {'lon':self.long, 'lat':self.lat,'distance_to_MRT':self.MRT,'Station':self.MRTName,'CBD':self.CBD,'School':self.school,'mall':self.ShoppingMall}
 
         with open(DATAFRAME_SOURCE_PATH, 'wb') as file_name:
             pickle.dump(lon_lat, file_name) # for match the correct address
@@ -119,7 +119,7 @@ class GeoCode:
     
     def getPOIDistance(self):
         #POI = ['MTR']
-        POI = ['MTR']
+        POI = ['MTR','shoppingmall','school']
         for POI_ in POI:
             path = "Data/POI/" + POI_ + ".json"
             if POI_ == "shoppingmall": self.ShoppingMall,self.ShoppingMallName= self.CalculatePOI(path)
