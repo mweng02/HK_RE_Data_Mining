@@ -2,7 +2,7 @@ import googlemaps,gmaps
 import pickle, numpy as np, pandas as pd 
 
 ### Need to create your own API key account for google GeoCodingAPI
-GOOGLE_API_KEY = 'AIzaSyBdOkTrlyWavJZZBA_XumEiPB8n4tKhsro'
+GOOGLE_API_KEY = ''
 REFERENCE_PATH = 'Data/GeoCode/geo-dict.json'
 
 SAVE_REFERENCE_PATH = 'Data/GeoCode/geo-dict.json'
