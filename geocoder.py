@@ -125,7 +125,7 @@ class GeoCode:
             if POI_ == "shoppingmall": self.ShoppingMall,self.ShoppingMallName= self.CalculatePOI(path)
             elif POI_ == "MTR": self.MRT, self.MRTName= self.CalculatePOI(path)
             elif POI_ == "school":self.school,self.schoolName = self.CalculatePOI(path)
-        return self.MRT
+        return self.MRT,self.MRT, self.school 
     
     def geoCodePOI(self):
         self.getLatLongforTransaction()
